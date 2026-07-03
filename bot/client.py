@@ -13,12 +13,11 @@ class BinanceClient:
     def __init__(self):
         api_key = os.getenv("BINANCE_API_KEY")
         api_secret = os.getenv("BINANCE_API_SECRET")
-        testnet = os.getenv("BINANCE_TESTNET")
 
         if not api_key or not api_secret:
             raise ValueError("API Key or Secret not found in .env")
 
-        self.client = Client(api_key, api_secret, testnet=testnet)
+        self.client = Client(api_key, api_secret)
         
         exchange_info=self.client.futures_exchange_info()
         symbols=[sym["symbol"] for sym in exchange_info["symbols"]]
@@ -44,7 +43,6 @@ class BinanceClient:
         symbol: str,
         side: str,
         quantity: float,
-        price: Optional[float]
     ):
         """Place a MARKET order."""
 

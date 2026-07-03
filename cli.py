@@ -100,7 +100,13 @@ def trade():
             "[bold green]🚀 Sending Order to Binance...[/bold green]",
             spinner="earth",
         ):
-            order = orders.execute_order(validated)
+            order = orders.execute_order(
+                symbol=validated["symbol"],
+                side=validated["side"],
+                order_type=validated["order_type"],
+                quantity=validated["quantity"],
+                price=validated["price"],
+            )
 
         formatted = orders.format_response(order)
 
@@ -117,8 +123,8 @@ def trade():
     console.print()
     console.print(
         Panel.fit(
-            "[bold green]🎉 Order Successfully Executed![/bold green]",
-            f"[green]Order ID: {str(formatted.get('orderId', '-'))}[/green]",
+            "[bold green]🎉 Order Successfully Executed![/bold green]\n"
+            f"[green]Order ID: {formatted.get('orderId', '-')}[/green]",
             border_style="green",
         )
     )
