@@ -43,13 +43,21 @@ class BinanceOrder:
             else:
                 raise ValueError(f"Unsupported order type: {order_type}")
 
-            self.logger.info("Order executed successfully.")
+            if order is None:
+                raise RuntimeError("Order placement returned None.")
+
+            self.logger.info(
+                f"Order executed successfully | "
+                f"OrderID={order['orderId']} | "
+                f"Status={order['status']}"
+            )
+
 
             return order
 
         except Exception as e:
-            self.logger.exception("Failed to execute order.")
-            raise e
+            self.logger.error(f"Failed to execute order: {e}")
+            raise
 
     def format_response(self, order: dict) -> dict:
         """

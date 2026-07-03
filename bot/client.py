@@ -56,13 +56,18 @@ class BinanceClient:
                 quantity=quantity,
             )
 
-            self.logger.info(f"Order placed successfully: {order}")
+            self.logger.info(
+            f"Order placed successfully | "
+            f"OrderID={order['orderId']} | "
+            f"Status={order['status']} | "
+            f"Symbol={order['symbol']}"
+)
 
             return order
 
         except (BinanceAPIException, BinanceRequestException) as e:
-            self.logger.exception("Failed to place MARKET order.")
-            raise e
+            self.logger.error(f"Failed to place MARKET order: {e}")
+            raise
 
     def place_limit_order(
         self,
@@ -90,8 +95,8 @@ class BinanceClient:
             return order
 
         except (BinanceAPIException, BinanceRequestException) as e:
-            self.logger.exception("Failed to place LIMIT order.")
-            raise e
+            self.logger.error(f"Failed to place LIMIT order: {e}")
+            raise
 
     def get_order(self, symbol: str, order_id: int):
         """Fetch an existing order."""
