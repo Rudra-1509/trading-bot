@@ -1,0 +1,6 @@
+rich
+typer
+requests
+
+python-binance
+python-dotenv
